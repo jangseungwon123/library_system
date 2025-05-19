@@ -10,18 +10,17 @@ import java.util.List;
 public class StudentDAO {
 
     // 새 학생을 데이터베이스에 추가하는 기능
-    public void addStudent (Student student) throws SQLException{
+    public void addStudent(Student student) throws SQLException {
         // 1. 쿼리문 만들기 및 테스트 (DB에서)
-
 
 
         String sql = "INSERT INTO students(name, student_id) VALUES (?,?) ";
 
-        try(
+        try (
                 Connection conn = DatabaseUtil.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1,student.getName());
-            pstmt.setString(2,student.getStudentId());
+            pstmt.setString(1, student.getName());
+            pstmt.setString(2, student.getStudentId());
             pstmt.executeUpdate(); // 실행하기위해 필요
         }
     }
@@ -37,13 +36,13 @@ public class StudentDAO {
                 ResultSet rs = pstmt.executeQuery(sql);
         ) {
 
-            while(rs.next()){
-               Student studentDto = new Student();
-               // int sId =rs.getInt("id")
-               studentDto.setId(rs.getInt("id"));
-               studentDto.setName(rs.getString("name"));
-               studentDto.setStudentId(rs.getString("student_id"));
-               studentList.add(studentDto);
+            while (rs.next()) {
+                Student studentDto = new Student();
+                // int sId =rs.getInt("id")
+                studentDto.setId(rs.getInt("id"));
+                studentDto.setName(rs.getString("name"));
+                studentDto.setStudentId(rs.getString("student_id"));
+                studentList.add(studentDto);
             }
         }
 
@@ -57,17 +56,19 @@ public class StudentDAO {
         // if -- return new Student();
         String sql = "select * from students where student_id = ? ";
 
-        try(Connection conn = DatabaseUtil.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1,studentId);
-                ResultSet rs = pstmt.executeQuery();
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, studentId);
+            ResultSet rs = pstmt.executeQuery();
 
 
+            if (rs.next()) {
                 Student studentDTO = new Student();
                 studentDTO.setStudentId("id");
                 studentDTO.setName("name");
                 studentDTO.setStudentId("student_id");
-                if(rs.next());
+                return studentDTO;
+            }
 
 //                while (rs.next()){  // 헷갈리면 이거쓰셈
 //                    Student studentDTO = new Student();
