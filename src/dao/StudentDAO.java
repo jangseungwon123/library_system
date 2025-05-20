@@ -54,6 +54,7 @@ public class StudentDAO {
         // 학생이 정확한 학번 입력하면 Student 객체가 만들어져서 리턴 됨
         // 학생이 잘못된 학번을 입력하면 null  값을 반환
         // if -- return new Student();
+        System.out.println("StudentDAO : " + studentId);
         String sql = "select * from students where student_id = ? ";
 
         try (Connection conn = DatabaseUtil.getConnection();
@@ -64,9 +65,11 @@ public class StudentDAO {
 
             if (rs.next()) {
                 Student studentDTO = new Student();
-                studentDTO.setStudentId("id");
-                studentDTO.setName("name");
-                studentDTO.setStudentId("student_id");
+
+                studentDTO.setId(rs.getInt("id"));
+                studentDTO.setName(rs.getString("name"));
+                studentDTO.setStudentId(rs.getString("student_id"));
+
                 return studentDTO;
             }
 
