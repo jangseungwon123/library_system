@@ -86,8 +86,7 @@ public class BorrowDAO {
             conn = DatabaseUtil.getConnection();
             // 트랜잭션 시작
             conn.setAutoCommit(false); // commit 실제로 물리적장치에 저장하는것 false 자동 등록을 막겠다.
-
-
+                                        // finally까지 넣기 위해
             // 이 쿼리에 결과 집합에서 필요한 것은 borrow 의 pk(id) 값이다
             int borrowId = 0;
             String checkSql = "SELECT_id FROM borrows " +
